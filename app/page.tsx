@@ -370,14 +370,14 @@ export default function Home() {
               </button>
             </div>
           ) : (
-            <div className="video-grid">
-              <div className="video-tile">
-                <video ref={localVideo} autoPlay muted playsInline />
-                <span>{name} (você)</span>
-              </div>
+            <div className={`video-grid ${remoteIds.length ? "has-remote" : "solo"}`}>
               {remoteIds.map((id) => (
                 <RemoteVideo key={id} stream={remoteStreams.current.get(id)!} />
               ))}
+              <div className="video-tile local-tile">
+                <video ref={localVideo} autoPlay muted playsInline />
+                <span>{name} (você)</span>
+              </div>
             </div>
           )}
           {joined && (
@@ -525,7 +525,7 @@ function RemoteVideo({ stream }: { stream: MediaStream }) {
     if (ref.current) ref.current.srcObject = stream;
   }, [stream]);
   return (
-    <div className="video-tile">
+    <div className="video-tile remote-tile">
       <video ref={ref} autoPlay playsInline />
       <span>Participante</span>
     </div>
